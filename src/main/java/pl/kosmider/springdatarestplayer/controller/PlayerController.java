@@ -1,6 +1,8 @@
 package pl.kosmider.springdatarestplayer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.kosmider.springdatarestplayer.entity.Player;
 import pl.kosmider.springdatarestplayer.repository.PlayerRepository;
@@ -8,7 +10,8 @@ import pl.kosmider.springdatarestplayer.repository.PlayerRepository;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+//@RestController
+@Controller
 public class PlayerController {
 
     private PlayerRepository playerRepository;
@@ -35,6 +38,22 @@ public class PlayerController {
             throw new RuntimeException("Did not find employee id - " + id);
         }
         return player;
+    }
+
+    @GetMapping("/addPlayer")
+    public String addPlayer(Model model) {
+        Player player = new Player();
+        model.addAttribute("player", player);
+
+        return "player-form";
+    }
+
+    @PostMapping("/processPlayerForm")
+    @ResponseBody
+    public String addPlayer(@ModelAttribute("player") Player player) {
+        player.setId(0);
+        playerRepository.save(player);
+        return player.toString();
     }
 
     @PostMapping("/player")

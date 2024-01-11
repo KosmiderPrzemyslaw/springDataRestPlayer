@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Player registration form</title>
+</head>
+<body>
+
+<form th:action="@{/processPlayerForm}" th:object="${player}" method="post">
+    First name: <input type="text" th:field="${player.playerName}"/>
+    <br><br>
+
+    Last name: <input type="text" th:field="${player.lastName}"/>
+
+    <br><br>
+
+    email: <input type="text" th:field="${player.email}"/>
+
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

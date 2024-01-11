@@ -23,15 +23,15 @@ public class CoachController {
         return coachRepository.findAll();
     }
 
-    @GetMapping("coach/{coachId}")
-    public Coach findCoachById(@RequestParam Long coachId) {
-        Optional<Coach> coachById = coachRepository.findById(coachId);
+    @GetMapping("/coach/{id}")
+    public Coach findCoachById(@PathVariable Long id) {
+        Optional<Coach> coachById = coachRepository.findById(id);
         Coach coach = null;
 
         if (coachById.isPresent()) {
             coach = coachById.get();
         } else {
-            throw new RuntimeException("Can not find coach with id " + coachId);
+            throw new RuntimeException("Can not find coach with id " + id);
         }
         return coach;
     }
@@ -42,18 +42,19 @@ public class CoachController {
         return coachRepository.save(coach);
     }
 
-    @PutMapping
+    @PutMapping("/coach")
     public Coach updateCoach(@RequestBody Coach coach) {
         return coachRepository.save(coach);
     }
 
-    @DeleteMapping
-    public Coach deleteCoach(@RequestParam Long coachId) {
+    @DeleteMapping("/coach/{coachId}")
+    public Coach deleteCoach(@PathVariable Long coachId) {
         Optional<Coach> coach = coachRepository.findById(coachId);
 
         Coach coachFromDb = null;
 
         if (coach.isPresent()) {
+            coachFromDb = coach.get();
             coachRepository.delete(coachFromDb);
         } else {
             throw new RuntimeException("Can not find coach with id -" + coachId);
